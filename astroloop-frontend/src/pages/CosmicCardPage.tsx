@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cosmicCardApi, type CosmicCard } from '../api/cosmicCard';
+import { cosmicCardApi, type CosmicCard, getShareUrl } from '../api/cosmicCard';
 import { CardSkeleton } from '../components/LoadingSkeleton';
 
 const elementEmoji: Record<string, string> = { Fire: '🔥', Earth: '🌍', Air: '💨', Water: '💧' };
@@ -36,15 +36,16 @@ export default function CosmicCardPage() {
   const share = async () => {
     if (!card) return;
     try { await cosmicCardApi.trackShare(card.shareId); } catch {}
+    const shareUrl = getShareUrl(card.shareId);
     if (navigator.share) {
-      navigator.share({ title: 'My Cosmic Energy', text: `${card.userName}'s Cosmic Energy: ${card.energyScore}`, url: card.shareUrl });
+      navigator.share({ title: 'My Cosmic Energy', text: `${card.userName}'s Cosmic Energy: ${card.energyScore}`, url: shareUrl });
     } else { copyLink(); }
     loadCards();
   };
 
   const copyLink = () => {
     if (!card) return;
-    navigator.clipboard.writeText(card.shareUrl);
+    navigator.clipboard.writeText(getShareUrl(card.shareId));
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

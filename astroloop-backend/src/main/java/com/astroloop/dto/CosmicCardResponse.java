@@ -23,7 +23,6 @@ public class CosmicCardResponse {
     private CosmicElement luckyElement;
     private String zodiacSign;
     private String shareId;
-    private String shareUrl;
     private int viewCount;
     private int shareCount;
     private LocalDateTime createdAt;

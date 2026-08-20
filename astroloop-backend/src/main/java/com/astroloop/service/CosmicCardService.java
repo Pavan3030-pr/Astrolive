@@ -114,7 +114,6 @@ public class CosmicCardService {
     }
 
     private CosmicCardResponse mapToResponse(CosmicCard card, User user) {
-        String shareUrl = "http://localhost:5173/cosmic-card/" + card.getShareId();
         return CosmicCardResponse.builder()
                 .id(card.getId())
                 .userName(user.getFirstName())
@@ -129,7 +128,6 @@ public class CosmicCardService {
                 .luckyElement(card.getLuckyElement())
                 .zodiacSign(card.getZodiacSign())
                 .shareId(card.getShareId())
-                .shareUrl(shareUrl)
                 .viewCount(card.getViewCount())
                 .shareCount(card.getShareCount())
                 .createdAt(card.getCreatedAt())

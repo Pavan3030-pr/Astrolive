@@ -12,10 +12,13 @@ export interface CosmicCard {
   luckyElement: string;
   zodiacSign: string;
   shareId: string;
-  shareUrl: string;
   viewCount: number;
   shareCount: number;
   createdAt: string;
+}
+
+export function getShareUrl(shareId: string): string {
+  return `${window.location.origin}/cosmic-card/${shareId}`;
 }
 
 export const cosmicCardApi = {
