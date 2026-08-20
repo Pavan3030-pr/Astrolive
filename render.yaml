@@ -1,10 +1,9 @@
 services:
   - type: web
     name: astroloop-backend
-    runtime: java
+    runtime: docker
     rootDir: astroloop-backend
-    buildCommand: ./mvnw clean package -DskipTests
-    startCommand: java -jar target/astroloop-backend-1.0.0.jar --spring.profiles.active=prod
+    healthCheckPath: /api/health
     envVars:
       - key: JAVA_VERSION
         value: "21"
