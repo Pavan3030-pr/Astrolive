@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: astroloop-backend
+    runtime: java
+    rootDir: astroloop-backend
+    buildCommand: ./mvnw clean package -DskipTests
+    startCommand: java -jar target/astroloop-backend-1.0.0.jar --spring.profiles.active=prod
+    envVars:
+      - key: JAVA_VERSION
+        value: "21"
+      - key: SPRING_PROFILES_ACTIVE
+        value: "prod"
+      - key: PORT
+        sync: false
+      - key: DB_HOST
+        fromDatabase:
+          name: astroloop-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: astroloop-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: astroloop-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: astroloop-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: astroloop-db
+          property: password
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: "https://celadon-cat-054988.netlify.app"
+
+databases:
+  - name: astroloop-db
+    plan: free
+    databaseName: astroloop
