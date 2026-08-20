@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+target/
+*.class
+*.jar
+*.war
+
+# Build outputs
+dist/
+build/
+*.log
+
+# Environment
+.env
+.env.local
+.env.production
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Database
+*.db
+*.sqlite
+
+# Maven
+.mvn/wrapper/maven-wrapper.jar
+
+# Vite
+astroloop-frontend/dist/
+
+# Secrets
+*.pem
+*.key

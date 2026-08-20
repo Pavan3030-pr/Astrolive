@@ -1,0 +1,12 @@
+package com.astroloop.enums;
+
+public enum ActivityType {
+    DAILY_CHECK_IN,
+    COSMIC_CARD_GENERATED,
+    COSMIC_CARD_VIEWED,
+    COSMIC_CARD_SHARED,
+    COSMIC_MATCH,
+    CONSULTATION,
+    CHALLENGE_COMPLETED,
+    PROFILE_CREATED
+}
