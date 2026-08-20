@@ -3,9 +3,11 @@ package com.astroloop.service;
 import com.astroloop.dto.StreakResponse;
 import com.astroloop.entity.DailyActivity;
 import com.astroloop.entity.Streak;
+import com.astroloop.entity.User;
 import com.astroloop.enums.ActivityType;
 import com.astroloop.repository.DailyActivityRepository;
 import com.astroloop.repository.StreakRepository;
+import com.astroloop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +20,16 @@ public class StreakService {
 
     private final StreakRepository streakRepository;
     private final DailyActivityRepository dailyActivityRepository;
+    private final UserRepository userRepository;
 
     public StreakResponse checkIn(Long userId) {
         LocalDate today = LocalDate.now();
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         Streak streak = streakRepository.findByUserId(userId).orElse(null);
         if (streak == null) {
             streak = Streak.builder()
-                    .user(null)
+                    .user(user)
                     .currentStreak(1)
                     .longestStreak(1)
                     .lastCheckInDate(today)
@@ -57,7 +61,7 @@ public class StreakService {
 
         // Record activity
         DailyActivity activity = DailyActivity.builder()
-                .user(null) // Set by controller
+                .user(user)
                 .activityType(ActivityType.DAILY_CHECK_IN)
                 .activityDate(today)
                 .build();
