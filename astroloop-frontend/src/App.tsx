@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
+import ErrorBoundary from './components/ErrorBoundary';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -12,6 +13,13 @@ import AstrologersPage from './pages/AstrologersPage';
 import PremiumPage from './pages/PremiumPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import Layout from './components/Layout';
+
+function AuthRoute({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+  if (loading) return <div className="min-h-screen bg-cosmic-900 flex items-center justify-center"><div className="text-gold-400 text-lg">Loading...</div></div>;
+  if (!user) return <Navigate to="/login" />;
+  return <Layout>{children}</Layout>;
+}
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -27,18 +35,20 @@ function PublicCardRoute() {
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
-      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-      <Route path="/cosmic-card" element={<ProtectedRoute><CosmicCardPage /></ProtectedRoute>} />
-      <Route path="/cosmic-card/:shareId" element={<PublicCardRoute />} />
-      <Route path="/cosmic-match" element={<ProtectedRoute><CosmicMatchPage /></ProtectedRoute>} />
-      <Route path="/astrologers" element={<ProtectedRoute><AstrologersPage /></ProtectedRoute>} />
-      <Route path="/premium" element={<ProtectedRoute><PremiumPage /></ProtectedRoute>} />
-      <Route path="/analytics" element={<ProtectedRoute><AnalyticsPage /></ProtectedRoute>} />
-    </Routes>
+    <ErrorBoundary>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/onboarding" element={<AuthRoute><Onboarding /></AuthRoute>} />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/cosmic-card" element={<ProtectedRoute><CosmicCardPage /></ProtectedRoute>} />
+        <Route path="/cosmic-card/:shareId" element={<PublicCardRoute />} />
+        <Route path="/cosmic-match" element={<ProtectedRoute><CosmicMatchPage /></ProtectedRoute>} />
+        <Route path="/astrologers" element={<ProtectedRoute><AstrologersPage /></ProtectedRoute>} />
+        <Route path="/premium" element={<ProtectedRoute><PremiumPage /></ProtectedRoute>} />
+        <Route path="/analytics" element={<ProtectedRoute><AnalyticsPage /></ProtectedRoute>} />
+      </Routes>
+    </ErrorBoundary>
   );
 }
